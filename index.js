@@ -38,9 +38,25 @@ Airplane.prototype.land = function () {
     - Give instances of Person a method `.toString()`:
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
-
-function Person() {
-
+// Person object constructor
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
+}
+// eat
+Person.prototype.eat = function(food) {
+  if (this.stomach.length < 10) {
+    this.stomach.push(food)
+  }
+}
+// poop
+Person.prototype.poop = function() {
+  this.stomach = [];
+}
+// state name and age
+Person.prototype.toString = function() {
+  return `${this.name}, ${this.age}`;
 }
 
 /*
