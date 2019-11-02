@@ -127,7 +127,7 @@ Baby.prototype.play = function() {
         'shout': function() {console.log(`I am ${this.name}`.toUpperCase() + "!!!")}
       }
 
-  2. New binding: Using the `new` keyword and a constructor function, 'this' refers to the Object returned by the constructor
+  2. New binding: When using the `new` keyword and a constructor function, 'this' refers to the Object returned by the constructor
     Example:
       function HappyPerson(name, jam) {
         this.name = name;
@@ -136,7 +136,8 @@ Baby.prototype.play = function() {
       }
       const jerry = new HappyPerson("Jerry", "Chinese");
       
-  3. Explicit context: Using Object.prototype.apply or Object.prototype.call, you an bind instantiated objects to other objects
+  3. Explicit context: When using Object.prototype.apply or Object.prototype.call, you can bind objects to other objects.
+      This allows you an object to use or call the other object's prototype/methods/attributes
     Example (assuming code above is defined): 
       ...
       superhero.shout.call(jerry)
@@ -148,7 +149,8 @@ Baby.prototype.play = function() {
       jerry.shout()
       I AM JERRY!!!
 
-  4. Global context: When referencing `this` outside of the above contexts, `this` would point to the window/console Object
+  4. Global context: When referencing `this` outside of a function or outside of the above contexts, 
+      `this` would point to the window/console Object
     Example: 
       let superhero = {
         'name': this,
