@@ -86,8 +86,8 @@ Car.prototype.fill = function(gallons) {
 
 Car.prototype.drive = function(distance) {
   // Distance is assumed to be in miles
-  let drivableDistance = this.tank * this.milesPerGallon;
-  let fuelNeeded = distance / this.milesPerGallon;
+  const drivableDistance = this.tank * this.milesPerGallon;
+  const fuelNeeded = distance / this.milesPerGallon;
   this.odometer += Math.min(distance, drivableDistance);
   this.tank = Math.max(this.tank - fuelNeeded, 0)
   if (this.tank === 0) {
