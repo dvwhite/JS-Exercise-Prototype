@@ -85,7 +85,6 @@ Car.prototype.fill = function(gallons) {
 }
 
 Car.prototype.drive = function(distance) {
-  // Function assumes that the tank can only contain integers amounts
   // Distance is assumed to be in miles
   let drivableDistance = this.tank * this.milesPerGallon;
   let fuelNeeded = distance / this.milesPerGallon;
