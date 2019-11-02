@@ -111,12 +111,55 @@ function Baby() {
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
-*/
+  1. Implicit context: Using `this` in the function of an Object literal refers to the Object defined by the literal
+    Example:
+      let superhero = {
+        'name': "Hulk",
+        'age': 31,
+        'super_power': 'smash',
+        'jam': 'smash face',
+        'shout': function() {console.log(`I am ${this.name}`.toUpperCase() + "!!!")}
+      }
 
+  2. New binding: Using the `new` keyword and a constructor function, 'this' refers to the Object returned by the constructor
+    Example:
+      function HappyPerson(name, jam) {
+        this.name = name;
+        this.jam = jam;
+        this.shout = function () {return `I love ${this.jam}! Its my jam!`}
+      }
+      const jerry = new HappyPerson("Jerry", "Chinese");
+      
+  3. Explicit context: Using Object.prototype.apply or Object.prototype.call, you an bind instantiated objects to other objects
+    Example (assuming code above is defined): 
+      ...
+      superhero.shout.call(jerry)
+      jerry.shout.call(superhero)
+
+      superhero.shout()
+      => 'I love smash face! Its my jam!'
+
+      jerry.shout()
+      I AM JERRY!!!
+
+  4. Global context: When referencing `this` outside of the above contexts, `this` would point to the window/console Object
+    Example: 
+      let superhero = {
+        'name': this,
+        'age': 31,
+        'super_power': 'smash',
+        'jam': 'smash face',
+        'shout': function() {console.log(`I am ${this.name}`.toUpperCase() + "!!!")}
+      }
+
+      console.log(superhero.name)
+      { global:
+        { global: [Circular],
+          process:
+            process {
+              title: 'node',
+              ...
+*/
 
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
