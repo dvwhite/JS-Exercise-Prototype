@@ -38,9 +38,25 @@ Airplane.prototype.land = function () {
     - Give instances of Person a method `.toString()`:
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
-
-function Person() {
-
+// Person object constructor
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
+}
+// eat
+Person.prototype.eat = function(food) {
+  if (this.stomach.length < 10) {
+    this.stomach.push(food)
+  }
+}
+// poop
+Person.prototype.poop = function() {
+  this.stomach = [];
+}
+// state name and age
+Person.prototype.toString = function() {
+  return `${this.name}, ${this.age}`;
 }
 
 /*
@@ -50,15 +66,33 @@ function Person() {
         + should initialize with an `tank` at 0
         + should initialize with an `odometer` at 0
     - Give cars the ability to get fueled with a `.fill(gallons)` method. Add the gallons to `tank`.
-    - Give cars ability to `.drive(distance)`. The distance driven:
+    - STRETCH: Give cars ability to `.drive(distance)`. The distance driven:
         + Should cause the `odometer` to go up.
         + Should cause the the `tank` to go down taking `milesPerGallon` into account.
-    - A car which runs out of `fuel` while driving can't drive any more distance:
+    - STRETCH: A car which runs out of `fuel` while driving can't drive any more distance:
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
+function Car(model, milesPerGallon) {
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+  this.tank = 0;
+  this.odometer = 0;
+}
 
+Car.prototype.fill = function(gallons) {
+  this.tank += gallons;
+}
+
+Car.prototype.drive = function(distance) {
+  // Distance is assumed to be in miles
+  const drivableDistance = this.tank * this.milesPerGallon;
+  const fuelNeeded = distance / this.milesPerGallon;
+  this.odometer += Math.min(distance, drivableDistance);
+  this.tank = Math.max(this.tank - fuelNeeded, 0)
+  if (this.tank === 0) {
+    return `I ran out of fuel at ${this.odometer} miles!`
+  }
 }
 
 /*
@@ -68,20 +102,71 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
+function Baby(name, age, favoriteToy) {
+  Person.call(this, name, age);
+  this.favoriteToy = favoriteToy;
+}
 
+Baby.prototype = Object.create(Person.prototype);
+Baby.prototype.play = function() {
+  return `Playing with ${this.favoriteToy}`
 }
 
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
-*/
+  1. Implicit context: Using `this` in the function of an Object literal refers to the Object defined by the literal
+    Example:
+      let superhero = {
+        'name': "Hulk",
+        'age': 31,
+        'super_power': 'smash',
+        'jam': 'smash face',
+        'shout': function() {console.log(`I am ${this.name}`.toUpperCase() + "!!!")}
+      }
 
+  2. New binding: When using the `new` keyword and a constructor function, 'this' refers to the Object returned by the constructor
+    Example:
+      function HappyPerson(name, jam) {
+        this.name = name;
+        this.jam = jam;
+        this.shout = function () {return `I love ${this.jam}! Its my jam!`}
+      }
+      const jerry = new HappyPerson("Jerry", "Chinese");
+      
+  3. Explicit context: When using Object.prototype.apply or Object.prototype.call, you can bind objects to other objects.
+      This allows you an object to use or call the other object's prototype/methods/attributes
+    Example (assuming code above is defined): 
+      ...
+      superhero.shout.call(jerry)
+      jerry.shout.call(superhero)
+
+      superhero.shout()
+      => 'I love smash face! Its my jam!'
+
+      jerry.shout()
+      I AM JERRY!!!
+
+  4. Global context: When referencing `this` outside of a function or outside of the above contexts, 
+      `this` would point to the window/console Object
+    Example: 
+      let superhero = {
+        'name': this,
+        'age': 31,
+        'super_power': 'smash',
+        'jam': 'smash face',
+        'shout': function() {console.log(`I am ${this.name}`.toUpperCase() + "!!!")}
+      }
+
+      console.log(superhero.name)
+      { global:
+        { global: [Circular],
+          process:
+            process {
+              title: 'node',
+              ...
+*/
 
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
